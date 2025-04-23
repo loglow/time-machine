@@ -10,8 +10,8 @@ using namespace std;
 
 #define TIME_SECONDS 150
 #define BUFFER_WIGGLE_ROOM_SAMPLES 1000
-
 #define LINEAR_TIME false
+#define LED_BRIGHTNESS_MULT 4
 
 //Setting Struct containing parameters we want to save to flash
 struct CalibrationData {
@@ -132,7 +132,7 @@ void AudioCallback(AudioHandle::InputBuffer in, AudioHandle::OutputBuffer out, s
 			float loudness = timeMachine.timeMachineLeft.readHeads[i].loudness.Get();
 			loudness = max(loudness, timeMachine.timeMachineRight.readHeads[i].loudness.Get());
 			if(setLeds) {
-				leds[i+1].Set(loudness);
+				leds[i+1].Set(loudness * LED_BRIGHTNESS_MULT);
 				leds[i+1].Update();
 			}
 		} else {
@@ -140,7 +140,7 @@ void AudioCallback(AudioHandle::InputBuffer in, AudioHandle::OutputBuffer out, s
 			float loudness = timeMachine.timeMachineLeft.loudness.Get();
 			loudness = max(loudness, timeMachine.timeMachineRight.loudness.Get());
 			if(setLeds) {
-				leds[0].Set(loudness);
+				leds[0].Set(loudness * LED_BRIGHTNESS_MULT);
 				leds[0].Update();
 			}
 		}
